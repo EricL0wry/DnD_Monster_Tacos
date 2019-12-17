@@ -15,9 +15,10 @@
     <div class="d-flex h-100 p-3 mx-auto flex-column text-center">
       <header role="main" class="inner cover">
         <h1>DnD Monsters and Tacos</h1>
-        <p class="lead">Click on the button to be assigned a DnD spirit monster!</p>
-        <p class="lead">
-          <button type="button" class="btn btn-lg btn-danger">MONSTER!</button>
+        <p class="lead">Click on the button to display monsters!</p>
+        <p class="lead">Then, get your favorite monster a taco surprise!</p>
+        <p class="lead get-monsters-container">
+          <button type="button" id="get-monsters" class="btn btn-lg btn-danger">GET 25 MONSTERS!</button>
         </p>
       </header>
     </div>
@@ -42,31 +43,15 @@
           <th scope="col"></th>
         </tr>
       </thead>
-      <tbody>
-        <tr>
-          <td>Adult Copper Dragon</td>
-          <td>dragon</td>
-          <td>Huge</td>
-          <td>chaotic good</td>
-          <td>184</td>
-          <td><button type="button" class="btn btn-danger">Get Taco!</button></td>
-        </tr>
-        <tr>
-          <td>Adult Copper Dragon</td>
-          <td>dragon</td>
-          <td>Huge</td>
-          <td>chaotic good</td>
-          <td>184</td>
-          <td><button type="button" class="btn btn-danger">Get Taco!</button></td>
-        </tr>
-        <tr>
-          <td>Adult Copper Dragon</td>
-          <td>dragon</td>
-          <td>Huge</td>
-          <td>chaotic good</td>
-          <td>184</td>
-          <td><button type="button" class="btn btn-danger">Get Taco!</button></td>
-        </tr>
+      <tbody id="monster-table">
+        <!-- <tr class="monster-row">
+          <td class="monster-name">Adult Copper Dragon</td>
+          <td class="monster-type">dragon</td>
+          <td class="monster-size">Huge</td>
+          <td class="monster-alignment">chaotic good</td>
+          <td class="monster-hp">184</td>
+          <td class="button-container"><button type="button" class="btn btn-danger get-taco">Get Taco!</button></td>
+        </tr> -->
       </tbody>
     </table>
 
