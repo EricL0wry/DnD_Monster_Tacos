@@ -3,15 +3,12 @@ $(document).ready(initializeListPage);
 var monsterList;
 
 function initializeListPage() {
-  console.log("page loaded");
 
   monsterList = new MonsterList({
     tableBody: "#monster-table",
-    getMonsterButton: "#get-monsters"
+    getMonsterButton: "#get-monsters",
+    modalContent: "#modal-content"
   })
 
   monsterList.getMonsterListFromServer();
-  monsterList.addEventHandlers();
-  // monsterList.renderMonsterListItem();
-
 }
