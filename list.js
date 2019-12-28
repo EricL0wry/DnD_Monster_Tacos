@@ -1,5 +1,6 @@
 class MonsterList{
   constructor(elementConfig, diceResults){
+    this.updatePreviousPage = this.updatePreviousPage.bind(this);
     this.displayRoll = this.displayRoll.bind(this);
     this.rollDice = this.rollDice.bind(this);
     this.renderModal = this.renderModal.bind(this);
@@ -15,23 +16,23 @@ class MonsterList{
     this.handleGetMonstersClick = this.handleGetMonstersClick.bind(this);
     this.getMonsterCount = this.getMonsterCount.bind(this);
     this.getMonsterCountFail = this.getMonsterCountFail.bind(this);
-    this.addEventHandlers = this.addEventHandlers.bind(this);
+    this.buildNav = this.buildNav.bind(this);
+    this.renderNav = this.renderNav.bind(this);
     this.domElements = {
       tableBody: $(elementConfig.tableBody),
       getMonsterButton: $(elementConfig.getMonsterButton),
-      modalContent: $(elementConfig.modalContent)
+      modalContent: $(elementConfig.modalContent),
+      navPages: $(elementConfig.navPages)
     };
     this.diceResults = diceResults;
     this.list = {};
+    this.nav = [];
     this.classList = {};
     this.monsters = [];
     this.monsterCalls = [];
     this.lastMonsterIndex = null;
-  }
-
-  addEventHandlers(){
-    this.domElements.getMonsterButton.click(this.handleGetMonstersClick);
-    this.domElements.getMonsterButton.text("GET 25 MONSTERS!")
+    this.currentPage = 1;
+    this.previousPage = 1;
   }
 
   getMonsterListFromServer() {
@@ -43,39 +44,61 @@ class MonsterList{
   }
 
   getMonsterCount(response){
-    console.log(this.diceResults);
     this.list = response;
-    this.addEventHandlers();
+    this.buildNav();
+    this.renderNav();
+    this.handleGetMonstersClick();
+  }
+
+  buildNav(){
+    var totalMonsters = this.list.count;
+    var numberOfPages = totalMonsters / 25;
+    for(var i = 1; i <= numberOfPages; i++){
+      var firstIndex;
+      if(i==1){
+        firstIndex = 0;
+      }else{
+        firstIndex = (i-1) * 25
+      }
+      var page = new PageIndex(i, firstIndex, {click: this.handleGetMonstersClick, update: this.updatePreviousPage});
+      this.nav.push(page);
+    }
+  }
+
+  renderNav(){
+    var navBar = this.nav.map(v => v.renderPageIndex());
+    this.domElements.navPages.empty().append(navBar);
   }
 
   getMonsterCountFail(error){
     console.error("Failed to get monster list", error);
   }
 
-  handleGetMonstersClick(){
+  handleGetMonstersClick(currentPage, firstIndex){
+    var monsterIncrement = 24;
     var totalMonsters = this.list.count;
     var lastMonsterIndex = this.lastMonsterIndex;
     var monstersRemaining = (totalMonsters - 1) - lastMonsterIndex;
     var nextMonsterIndex;
-    var monsterIncrement = 24;
+    this.previousPage = this.currentPage;
 
-    if (this.domElements.getMonsterButton.text() == "START OVER"){
-      this.domElements.getMonsterButton.text("GET 25 MONSTERS!");
-
+    if(currentPage == undefined){
+      this.currentPage = 1;
+    }else{
+      this.currentPage = currentPage;
     }
-    if(monstersRemaining <= 25 && monstersRemaining > 0){
-      this.domElements.getMonsterButton.text("START OVER");
+
+    if(firstIndex !== undefined){
+      nextMonsterIndex = firstIndex;
     }
 
     if(monstersRemaining < monsterIncrement){
       monsterIncrement = monstersRemaining;
     }
-
     if (lastMonsterIndex == null || lastMonsterIndex == (totalMonsters - 1)){
       nextMonsterIndex = 0;
       monsterIncrement = 24;
     }else{
-      nextMonsterIndex = lastMonsterIndex + 1;
       this.lastMonsterIndex += monsterIncrement;
     }
     this.getMonsterDetailsFromServer(nextMonsterIndex, monsterIncrement);
@@ -170,5 +193,15 @@ class MonsterList{
   displayRoll(roll, response, modalObject){
     var modal = modalObject;
     modal.displayRollResults(roll, response);
+  }
+
+  updatePreviousPage(){
+    for(var i = 0; i <this.nav.length; i++){
+      var nav = this.nav[i];
+      if(nav.pageNumber == this.previousPage){
+        nav.removeActiveClass();
+      }
+    }
+
   }
 }

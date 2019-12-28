@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="pageIndex.js"></script>
     <script type="text/javascript" src="diceResults.js"></script>
     <script type="text/javascript" src="monsterModal.js"></script>
     <script type="text/javascript" src="monsters.js"></script>
@@ -32,11 +33,12 @@
     <div class="d-flex h-100 p-3 mx-auto flex-column text-center">
       <header role="main" class="inner cover">
         <h1>DnD Monsters and Tacos</h1>
-        <h3 class="lead">Click on the button to display monsters!</h3>
+        <h3 class="lead">Browse the list to find a monster!</h3>
         <h3 class="lead">Then, get your favorite monster a taco surprise!</h3>
-        <p class="lead get-monsters-container">
-          <button type="button" id="get-monsters" class="btn btn-lg btn-danger"></button>
-        </p>
+        <nav aria-label="Page navigation">
+          <ul class="pagination">
+          </ul>
+        </nav>
       </header>
     </div>
 
