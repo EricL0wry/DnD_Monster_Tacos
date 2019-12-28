@@ -8,7 +8,7 @@ function initializeListPage() {
     tableBody: "#monster-table",
     getMonsterButton: "#get-monsters",
     modalContent: "#modal-content"
-  })
+  }, diceResults)
 
   monsterList.getMonsterListFromServer();
 }

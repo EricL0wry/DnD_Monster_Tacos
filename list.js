@@ -1,5 +1,7 @@
 class MonsterList{
-  constructor(elementConfig){
+  constructor(elementConfig, diceResults){
+    this.displayRoll = this.displayRoll.bind(this);
+    this.rollDice = this.rollDice.bind(this);
     this.renderModal = this.renderModal.bind(this);
     this.processResponseForModal = this.processResponseForModal.bind(this);
     this.getTacoFromServer = this.getTacoFromServer.bind(this);
@@ -19,6 +21,7 @@ class MonsterList{
       getMonsterButton: $(elementConfig.getMonsterButton),
       modalContent: $(elementConfig.modalContent)
     };
+    this.diceResults = diceResults;
     this.list = {};
     this.classList = {};
     this.monsters = [];
@@ -40,6 +43,7 @@ class MonsterList{
   }
 
   getMonsterCount(response){
+    console.log(this.diceResults);
     this.list = response;
     this.addEventHandlers();
   }
@@ -151,8 +155,20 @@ class MonsterList{
   }
 
   renderModal(monsterName, taco){
-    var newModal = new MonsterModal(monsterName, taco);
+    var newModal = new MonsterModal(monsterName, taco, {click: this.rollDice});
     var modalBody = newModal.renderModalContent();
     this.domElements.modalContent.empty().append(modalBody);
+  }
+
+  rollDice(modalObject){
+    var randomRoll = this.diceResults[Math.floor(Math.random()*this.diceResults.length)];
+    var roll = randomRoll.value;
+    var response = randomRoll.response;
+    this.displayRoll(roll, response, modalObject);
+  }
+
+  displayRoll(roll, response, modalObject){
+    var modal = modalObject;
+    modal.displayRollResults(roll, response);
   }
 }
