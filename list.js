@@ -114,7 +114,7 @@ class MonsterList{
     var monsterCalls = [];
     for (var i = nextIndex; i <= lastIndex; i++) {
       var monster = this.list.results[i];
-      var monsterUrl = monster.url
+      var monsterUrl = "http://www.dnd5eapi.co" + monster.url;
       monsterCalls.push($.ajax({
         url: monsterUrl,
         method: "get",
@@ -202,6 +202,5 @@ class MonsterList{
         nav.removeActiveClass();
       }
     }
-
   }
 }
